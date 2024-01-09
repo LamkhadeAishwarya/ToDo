@@ -1,0 +1,94 @@
+
+
+    
+    <div class="container" align="center">
+
+        <form [formGroup]="TaskForm" (ngSubmit)="saveData()" style="width: 50%; " >
+           
+            <div class="form-control form-control-lg" style="background-color:aliceblue; padding: 5px;">
+                <br>
+                <p style="text-align: center;color:darkblue;"><b><h4>To Do's</h4></b></p><hr><br>
+                <div class="form-floating mb-3">
+                    
+                    <input type="text" required class="form-control" formControlName="taskid" id="taskid" placeholder="Task id">
+                    <label for="floatingInput">Task id</label>
+                    <div *ngIf="taskid?.invalid && (taskid?.touched && taskid?.dirty)"  class="text-danger">
+                        <small *ngIf="taskid?.errors?.['required']">Task id is required</small>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                <input type="text" required class="form-control" formControlName="name" id="name" placeholder="Task name">
+                <label for="floatingInput">Task name</label>
+                <div *ngIf="name?.invalid && (name?.touched && name?.dirty)" class="text-danger">
+                    <small *ngIf="name?.errors?.['required']">Task name is required</small>
+                </div>
+              </div>
+                
+              
+                 <div class="form-floating mb-3">
+                    <input type="date" required class="form-control" formControlName="AssignDate" id="AssignDate" placeholder="AssignDate">
+                    <label for="floatingInput">AssignDate</label>
+                    <div *ngIf="AssignDate?.invalid && (AssignDate?.touched || AssignDate?.dirty)" class="text-danger">
+                        <small *ngIf="AssignDate?.errors?.['required']">AssignDate is required</small>
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                <input type="date" required class="form-control" formControlName="Enddate" id="Enddate" placeholder="Enddate">
+                <label for="floatingInput">End Date</label>
+                <div *ngIf="Enddate?.invalid && (Enddate?.touched || Enddate?.dirty)" class="text-danger">
+                    <small *ngIf="Enddate?.errors?.['required']">Enddate is required</small>
+                </div>
+              </div>
+              <br>
+              <div class="form-floating mb-3">
+               <input type="submit" *ngIf="!isUpdatebtn" [disabled]="TaskForm.invalid" class="btn btn-primary" value="Add"style="background-color:rgb(106, 159, 204);"/>
+               <input type="submit" *ngIf="isUpdatebtn" [disabled]="TaskForm.invalid" class="btn btn-primary" value="Update"style="background-color:rgb(106, 159, 204);" />
+               &nbsp;&nbsp;
+             
+               &nbsp;&nbsp;
+               <input type="button" class="btn btn-danger "value="Cancel" (click)="clearForm()"/>
+                &nbsp;&nbsp;
+              </div>
+            </div>
+        </form>
+    </div>
+    <br>
+    <p style="text-align: center; ">&nbsp;&nbsp;
+    <input type="button" class="btn btn-primary"value="Completed Task" (click)=" viewcompleted()" style="background-color:rgb(106, 159, 204); "/> 
+    &nbsp;&nbsp;
+<input type="button" class="btn btn-primary"value="Task List" (click)="getAllTasks()" style="background-color:rgb(106, 159, 204) ;"/>
+</p>
+    <hr>&nbsp;&nbsp;
+    
+    <div class="container">
+        <table class="table table-bordered" *ngIf="TaskList!=null && TaskList.length>0">
+            <thead href="predikly-task.component.css" >
+        
+                <tr>
+                    <th>Task Id</th>
+                    <th> Task Name</th>
+                    <th>Status</th>
+                    <th>AssignDate</th>
+                    <th>EndDate</th>
+                    <th *ngIf="isNewList">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let task of TaskList">
+                    <td>{{task.taskid}}</td>
+                    <td>{{task.name}}</td>
+                     <td>{{task.Discription}}</td> 
+                    
+                    <td>{{task.AssignDate|date:'mediumDate'}}</td>
+                    <td>{{task.Enddate | date:'mediumDate'}}</td>
+                   
+                    <td *ngIf="isNewList">
+                        <input type="button" class="btn btn-warning" value="Edit" (click)="edit(task)" /> &nbsp;&nbsp;
+                        <input type="button" class="btn btn-danger" value="Delete" (click)="delete(task.taskid)" />&nbsp;&nbsp;
+                        <input type="button" class="btn btn-success" value="Completed" (click)="completed(task.taskid)" />
+                    </td>
+                </tr>
+               </tbody>
+        </table>
+    </div>
